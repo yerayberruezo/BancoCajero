@@ -8,6 +8,7 @@ using BancoCajero.Application.Comandos;
 using BancoCajero.Infrastructure.Seguridad;
 using BancoCajero.Application.Seguridad;
 using Microsoft.IdentityModel.Tokens;
+using BancoCajero.Application.Comportamientos;
 using System.Text;
 
 namespace BancoCajero.API.Configuraciones;
@@ -24,12 +25,16 @@ public static class DependenciasExtension
         servicios.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(IngresarDineroCommand).Assembly);
+            cfg.RegisterServicesFromAssembly(typeof(ComportamientoValidacion<,>).Assembly);
         });
+
+        servicios.AddValidatorsFromAssembly(typeof(IngresarDineroCommand).Assembly);
+
+        servicios.AddTransient(typeof(IPipelineBehavior<,>), typeof(ComportamientoValidacion<,>));
 
         servicios.AddHttpContextAccessor();
 
         servicios.AddScoped<IJwtService, JwtService>();
-
 
         servicios.AddAuthentication("Bearer")
             .AddJwtBearer("Bearer", options =>

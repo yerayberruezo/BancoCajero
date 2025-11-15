@@ -5,10 +5,10 @@ namespace BancoCajero.Domain.Entidades;
 public class CuentaBancaria
 {
     public Guid Id { get; private set; }
-    public string NumeroCuenta { get; private set; }
-    public string Entidad { get; private set; }
+    public string NumeroCuenta { get; private set; } = default!;
+    public string Entidad { get; private set; } = default!;
     public decimal Saldo { get; private set; }
-    public Persona Titular { get; private set; }
+    public Persona Titular { get; private set; } = default!;
 
     public CuentaBancaria() { }
 
